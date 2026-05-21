@@ -45,8 +45,21 @@ app.use((err, _, res, __) => {
 });
 
 const start = async () => {
-  await connectDB();
-  app.listen(PORT, '0.0.0.0', () => console.log(`API running on port ${PORT}`));
+  try {
+    console.log('Connecting DB...');
+    
+    await connectDB();
+
+    console.log('DB Connected');
+
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`API running on port ${PORT}`);
+    });
+
+  } catch (err) {
+    console.error('Startup error:', err);
+    process.exit(1);
+  }
 };
 
 start().catch((err) => {
